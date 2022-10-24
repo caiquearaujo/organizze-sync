@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Category Table.
+ * Accounts Table.
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Schema;
  * @license MIT
  * @copyright 2022 Caique Araujo <caique@piggly.com.br>
  */
-class CreateCategoriesTable extends Migration
+class CreateAccountsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -23,12 +23,14 @@ class CreateCategoriesTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('categories', function (Blueprint $table) {
+		Schema::create('accounts', function (Blueprint $table) {
 			$table->bigInteger('local_id', true, true)->primary();
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
+			$table->enum('type', ['checking', 'savings', 'other']);
 			$table->string('name');
-			$table->char('color', 6);
-			$table->bigInteger('parent_id', false, true)->nullable()->index();
+			$table->string('description');
+			$table->boolean('archived')->default(false);
+			$table->boolean('default')->default(false);
 
 			$table->timestamp('last_sync')->nullable()->index();
 			$table->timestamps();
@@ -42,6 +44,6 @@ class CreateCategoriesTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('categories');
+		Schema::dropIfExists('accounts');
 	}
 }
