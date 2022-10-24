@@ -26,7 +26,7 @@ class CreateCardsTable extends Migration
 		Schema::create('cards', function (Blueprint $table) {
 			$table->bigInteger('local_id', true, true)->primary();
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
-			$table->enum('kind', ['credit_card', 'debit_card']);
+			$table->enum('type', ['credit_card', 'debit_card']);
 			$table->string('name');
 			$table->string('description');
 			$table->string('card_network');
