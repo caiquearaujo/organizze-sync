@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Card model.
+ * Card invoice model.
  *
  * @package \App
  * @subpackage \App\Models
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @license MIT
  * @copyright 2022 Caique Araujo <caique@piggly.com.br>
  */
-class CardModel extends Model
+class CardInvoiceModel extends Model
 {
 	/**
 	 * Traits.
@@ -30,7 +30,7 @@ class CardModel extends Model
 	 * @var string
 	 * @since 0.1.0
 	 */
-	protected $table = 'cards';
+	protected $table = 'card_invoices';
 
 	/**
 	 * The primary key associated with the table.
@@ -47,22 +47,24 @@ class CardModel extends Model
 	 * @since 0.1.0
 	 */
 	protected $casts = [
-		'closing_day' => 'integer',
-		'due_day' => 'integer',
-		'limit_cents' => 'integer',
-		'archived' => 'boolean',
-		'default' => 'boolean',
+		'date' => 'date',
+		'starting_date' => 'date',
+		'closing_date' => 'date',
+		'amount_cents' => 'integer',
+		'payment_amount_cents' => 'integer',
+		'balance_cents' => 'integer',
+		'previous_balance_cents' => 'integer',
 		'last_sync' => 'datetime'
 	];
 
 	/**
-	 * Invoices.
+	 * Card.
 	 *
 	 * @return void
 	 * @since 0.1.0
 	 */
-	public function invoices()
+	public function card()
 	{
-		return $this->hasMany(CardInvoiceModel::class, 'local_id', 'card_id');
+		return $this->belongsTo(CardModel::class, 'card_id', 'local_id');
 	}
 }
