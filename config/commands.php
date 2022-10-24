@@ -41,6 +41,7 @@ return [
 
 	'add' => [
 		App\Commands\SetupCommand::class,
+		App\Commands\UpdateCommand::class,
 		Illuminate\Foundation\Console\ConfigClearCommand::class,
 		App\Commands\Config\IntegrationConfigCommand::class,
 		App\Commands\Config\MySQLConfigCommand::class

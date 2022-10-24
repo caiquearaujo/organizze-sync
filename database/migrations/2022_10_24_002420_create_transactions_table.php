@@ -24,7 +24,7 @@ class CreateTransactionsTable extends Migration
 	public function up()
 	{
 		Schema::create('transactions', function (Blueprint $table) {
-			$table->bigInteger('local_id', true, true)->primary();
+			$table->bigInteger('local_id', true, true);
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
 
 			$table->enum('kind', ['account', 'card']);
