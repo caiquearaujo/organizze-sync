@@ -27,11 +27,12 @@ class CreateTransactionsTable extends Migration
 			$table->bigInteger('local_id', true, true)->primary();
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
 
-			$table->enum('kind', ['account', 'card', 'payment', 'oposite']);
+			$table->enum('kind', ['account', 'card']);
+			$table->enum('operation', ['oposite', 'payment', 'regular']);
 			$table->enum('type', ['expense', 'revenue']);
 
 			$table->bigInteger('category_id', false, true)->nullable();
-			$table->json('tags')->nullable();
+			$table->bigInteger('account_id', false, true)->nullable();
 
 			$table->date('date');
 			$table->string('description')->nullable();
@@ -42,16 +43,16 @@ class CreateTransactionsTable extends Migration
 			$table->unsignedTinyInteger('installment');
 			$table->unsignedTinyInteger('attachments_count');
 
-			$table->bigInteger('account_id', false, true)->nullable();
-			$table->bigInteger('card_id', false, true)->nullable();
-			$table->bigInteger('card_invoice_id', false, true)->nullable();
-			$table->bigInteger('paid_card_id', false, true)->nullable();
-			$table->bigInteger('paid_card_invoice_id', false, true)->nullable();
-			$table->bigInteger('oposite_transaction_id', false, true)->nullable();
-			$table->bigInteger('oposite_account_id', false, true)->nullable();
+			$table->bigInteger('card_id', false, true)->comment('External ID reference')->nullable();
+			$table->bigInteger('card_invoice_id', false, true)->comment('External ID reference')->nullable();
+			$table->bigInteger('paid_card_id', false, true)->comment('External ID reference')->nullable();
+			$table->bigInteger('paid_card_invoice_id', false, true)->comment('External ID reference')->nullable();
+			$table->bigInteger('oposite_transaction_id', false, true)->comment('External ID reference')->nullable();
+			$table->bigInteger('oposite_account_id', false, true)->comment('External ID reference')->nullable();
 
 			$table->boolean('paid');
 			$table->boolean('recurring');
+			$table->json('tags')->nullable();
 
 			$table->timestamp('last_sync')->nullable()->index();
 			$table->timestamps();

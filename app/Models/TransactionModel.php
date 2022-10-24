@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Card invoice model.
@@ -60,24 +61,31 @@ class TransactionModel extends Model
 	];
 
 	/**
+	 * Category.
+	 *
+	 * @return BelongsTo
+	 * @since 0.1.0
+	 */
+	public function category()
+	{
+		return $this->belongsTo(CategoryModel::class, 'category_id', 'local_id');
+	}
+
+	/**
 	 * Parent.
 	 *
-	 * @return void
+	 * @return BelongsTo
 	 * @since 0.1.0
 	 */
 	public function parent()
 	{
 		switch ($this->kind) {
 			case 'account':
-				return $this->belongsTo(CardModel::class, 'account_id', 'local_id');
-			case 'oposite':
-				return $this->belongsTo(AccountModel::class, 'oposite_account_id', 'local_id');
+				return $this->belongsTo(AccountModel::class, 'account_id', 'local_id');
 			case 'card':
-				return $this->belongsTo(CardModel::class, 'card_id', 'local_id');
-			case 'payment':
-				return $this->belongsTo(CardModel::class, 'paid_card_id', 'local_id');
+				return $this->belongsTo(CardModel::class, 'account_id', 'local_id');
 		}
 
-		return null;
+		return $this->belongsTo(AccountModel::class, 'account_id', 'local_id');
 	}
 }
