@@ -22,6 +22,14 @@ use Carbon\Carbon;
 class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskInterface
 {
 	/**
+	 * Current card model.
+	 *
+	 * @var CardModel
+	 * @since 0.1.0
+	 */
+	protected CardModel $_current;
+
+	/**
 	 * Run task.
 	 *
 	 * @since 0.1.0
@@ -30,21 +38,25 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 	public function run()
 	{
 		$api = new OrganizzeApi(env('INTEGRATION_NAME'), env('INTEGRATION_EMAIL'), env('INTEGRATION_KEY'));
-		$cards = $api->cards();
 
-		if (empty($cards)) {
-			return;
-		}
+		foreach (CardModel::all() as $crd) {
+			$this->_current = $crd;
+			$invoices = $api->invoices($crd);
 
-		foreach ($cards as $_external) {
-			$_local = CardInvoiceModel::where('external_id', $_external['id'])->first();
-
-			if (empty($_local)) {
-				$this->create($_external);
-				continue;
+			if (empty($invoices)) {
+				return;
 			}
 
-			$this->sync($_external, $_local);
+			foreach ($invoices as $_external) {
+				$_local = CardInvoiceModel::where('external_id', $_external['id'])->first();
+
+				if (empty($_local)) {
+					$this->create($_external);
+					continue;
+				}
+
+				$this->sync($_external, $_local);
+			}
 		}
 	}
 
@@ -57,10 +69,10 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 	 */
 	public function create(array $external)
 	{
-		$crd = new CardInvoiceModel();
+		$inv = new CardInvoiceModel();
 
-		$crd->external_id = $external['id'];
-		$this->fill($crd, $external)->save();
+		$inv->external_id = $external['id'];
+		$this->fill($inv, $external)->save();
 	}
 
 	/**
@@ -93,10 +105,8 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 	 */
 	public function fill($local, array $external)
 	{
-		$card = CardModel::where('external_id', $external['credit_card_id'])->first();
-
-		if (!empty($card)) {
-			$local->card()->associate($external['id']);
+		if (!empty($this->_current)) {
+			$local->card()->associate($this->_current);
 		}
 
 		$local->date = new Carbon($external['date']);
