@@ -117,4 +117,3 @@ $RECYCLE.BIN/
 vendor
 .env
 .phpunit.result.cache
-/debug
