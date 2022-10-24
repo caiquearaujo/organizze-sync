@@ -27,6 +27,9 @@ class CreateTransactionsTable extends Migration
 			$table->bigInteger('local_id', true, true)->primary();
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
 
+			$table->enum('kind', ['account', 'card', 'payment', 'oposite']);
+			$table->enum('type', ['expense', 'revenue']);
+
 			$table->bigInteger('category_id', false, true)->nullable();
 			$table->json('tags')->nullable();
 
@@ -38,8 +41,6 @@ class CreateTransactionsTable extends Migration
 			$table->unsignedTinyInteger('total_installments');
 			$table->unsignedTinyInteger('installment');
 			$table->unsignedTinyInteger('attachments_count');
-
-			$table->enum('kind', ['account', 'card', 'payment', 'oposite']);
 
 			$table->bigInteger('account_id', false, true)->nullable();
 			$table->bigInteger('card_id', false, true)->nullable();
