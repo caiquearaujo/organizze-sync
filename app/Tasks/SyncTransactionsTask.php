@@ -7,6 +7,8 @@ use App\Models\AccountModel;
 use App\Models\CardModel;
 use App\Models\CategoryModel;
 use App\Models\TransactionModel;
+use App\Tasks\Interfaces\RunnableTaskInterface;
+use App\Tasks\Interfaces\SynchronizableTaskInterface;
 use Carbon\Carbon;
 use DateTimeImmutable;
 

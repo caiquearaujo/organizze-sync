@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tasks;
+namespace App\Tasks\Interfaces;
 
 /**
  * Sync external data with database.

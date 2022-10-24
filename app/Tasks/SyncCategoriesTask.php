@@ -4,6 +4,8 @@ namespace App\Tasks;
 
 use App\Api\OrganizzeApi;
 use App\Models\CategoryModel;
+use App\Tasks\Interfaces\RunnableTaskInterface;
+use App\Tasks\Interfaces\SynchronizableTaskInterface;
 use Carbon\Carbon;
 
 /**

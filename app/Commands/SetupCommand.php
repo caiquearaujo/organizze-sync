@@ -47,17 +47,14 @@ class SetupCommand extends AbstractBaseCommand
 		$this->introduction('Assistente de Configuração');
 		$this->describe('Neste assistente você será guiado para uma configuração da aplicação. Siga as instruções.');
 
-		try {
-			$env = (new DotenvEditor())->load(config('storage.abspath').'/.env');
-		} catch (Exception $e) {
-			$this->attention(\sprintf('Verifique se o arquivo .env está disponível em: %s', config('storage.abspath')));
-			$this->throwError($e->getMessage());
-		}
-
 		$this->_checkRequirements();
 		$this->call('config:integration');
 		$this->call('config:mysql');
 		$this->call('update');
+		$this->call('sync:categories');
+		$this->call('sync:accounts');
+		$this->call('sync:cards');
+		$this->call('sync:invoices');
 	}
 
 	/**
@@ -68,6 +65,13 @@ class SetupCommand extends AbstractBaseCommand
 	 */
 	protected function _checkRequirements()
 	{
+		try {
+			(new DotenvEditor())->load(config('storage.abspath').'/.env');
+		} catch (Exception $e) {
+			$this->attention(\sprintf('Verifique se o arquivo .env está disponível em: %s', config('storage.abspath')));
+			$this->throwError($e->getMessage());
+		}
+
 		$requirements = true;
 
 		$resp = $this->task('Extensão PHP MySQL', function () {

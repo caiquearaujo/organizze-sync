@@ -281,3 +281,30 @@
 #44 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/organizze-sync(37): LaravelZero\\Framework\\Kernel->handle()
 #45 {main}
 "} 
+[2022-10-24 13:04:58] development.ERROR: Interface 'App\Tasks\RunnableTaskInterface' not found {"exception":"[object] (Error(code: 0): Interface 'App\\Tasks\\RunnableTaskInterface' not found at /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/app/Tasks/SyncCategoriesTask.php:21)
+[stacktrace]
+#0 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/composer/ClassLoader.php(480): include()
+#1 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/composer/ClassLoader.php(346): Composer\\Autoload\\includeFile()
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass()
+#3 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/app/Commands/Sync/SyncCategoriesCommand.php(52): spl_autoload_call()
+#4 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/nunomaduro/laravel-console-task/src/LaravelConsoleTaskServiceProvider.php(49): App\\Commands\\Sync\\SyncCategoriesCommand->App\\Commands\\Sync\\{closure}()
+#5 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/macroable/Traits/Macroable.php(124): App\\Commands\\Sync\\SyncCategoriesCommand->NunoMaduro\\LaravelConsoleTask\\{closure}()
+#6 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/laravel-zero/framework/src/Commands/Command.php(56): Illuminate\\Console\\Command->__call()
+#7 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/app/Commands/Sync/SyncCategoriesCommand.php(57): LaravelZero\\Framework\\Commands\\Command->task()
+#8 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/container/BoundMethod.php(36): App\\Commands\\Sync\\SyncCategoriesCommand->handle()
+#9 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/container/Util.php(40): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#10 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#11 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/container/BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#12 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/container/Container.php(653): Illuminate\\Container\\BoundMethod::call()
+#13 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/console/Command.php(136): Illuminate\\Container\\Container->call()
+#14 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/symfony/console/Command/Command.php(298): Illuminate\\Console\\Command->execute()
+#15 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/console/Command.php(121): Symfony\\Component\\Console\\Command\\Command->run()
+#16 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/symfony/console/Application.php(1028): Illuminate\\Console\\Command->run()
+#17 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/symfony/console/Application.php(299): Symfony\\Component\\Console\\Application->doRunCommand()
+#18 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/symfony/console/Application.php(171): Symfony\\Component\\Console\\Application->doRun()
+#19 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/illuminate/console/Application.php(94): Symfony\\Component\\Console\\Application->run()
+#20 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/laravel-zero/foundation/src/Illuminate/Foundation/Console/Kernel.php(129): Illuminate\\Console\\Application->run()
+#21 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/vendor/laravel-zero/framework/src/Kernel.php(91): Illuminate\\Foundation\\Console\\Kernel->handle()
+#22 /home/piggly/Shared/development/github/caiquearaujo/organizze-sync/organizze-sync(37): LaravelZero\\Framework\\Kernel->handle()
+#23 {main}
+"} 

@@ -97,14 +97,26 @@ class OrganizzeApi
 	 * Get card invoices.
 	 *
 	 * @param CardModel|int $card
+	 * @param DateTimeImmutable $start_at
+	 * @param DateTimeImmutable $end_at
 	 * @since 0.1.0
 	 * @return array|null
 	 * @throws Exception
 	 */
-	public function invoices($card): ?array
+	public function invoices($card, DateTimeImmutable $start_at = null, DateTimeImmutable $end_at = null): ?array
 	{
+		$query = [];
+
+		if ($start_at) {
+			$query['start_date'] = $start_at->format('Y-m-d');
+		}
+
+		if ($end_at) {
+			$query['end_date'] = $end_at->format('Y-m-d');
+		}
+
 		$id = $card instanceof CardModel ? $card->external_id : \intval($card);
-		return $this->_list_route(\sprintf('credit_cards/%d/invoices', $id));
+		return $this->_list_route(\sprintf('credit_cards/%d/invoices', $id), $query);
 	}
 
 	/**

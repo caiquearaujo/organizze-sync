@@ -30,10 +30,10 @@ class CreateCardInvoicesTable extends Migration
 			$table->date('date');
 			$table->date('starting_date');
 			$table->date('closing_date');
-			$table->unsignedBigInteger('amount_cents');
-			$table->unsignedBigInteger('payment_amount_cents');
-			$table->unsignedBigInteger('balance_cents');
-			$table->unsignedBigInteger('previous_balance_cents');
+			$table->bigInteger('amount_cents');
+			$table->bigInteger('payment_amount_cents');
+			$table->bigInteger('balance_cents');
+			$table->bigInteger('previous_balance_cents');
 
 			$table->timestamp('last_sync')->nullable()->index();
 			$table->timestamps();

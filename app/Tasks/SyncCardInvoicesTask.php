@@ -5,7 +5,10 @@ namespace App\Tasks;
 use App\Api\OrganizzeApi;
 use App\Models\CardInvoiceModel;
 use App\Models\CardModel;
+use App\Tasks\Interfaces\RunnableTaskInterface;
+use App\Tasks\Interfaces\SynchronizableTaskInterface;
 use Carbon\Carbon;
+use DateTimeImmutable;
 
 /**
  * Sync card invoices with database.
@@ -30,6 +33,35 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 	protected CardModel $_current;
 
 	/**
+	 * Start date.
+	 *
+	 * @var DateTimeImmutable|null
+	 * @since 0.1.0
+	 */
+	protected $_start_at;
+
+	/**
+	 * End date.
+	 *
+	 * @var DateTimeImmutable|null
+	 * @since 0.1.0
+	 */
+	protected $_end_at;
+
+	/**
+	 * Construct with filters.
+	 *
+	 * @param DateTimeImmutable|null $start_at
+	 * @param DateTimeImmutable|null $end_at
+	 * @since 0.1.0
+	 */
+	public function __construct(DateTimeImmutable $start_at = null, DateTimeImmutable $end_at = null)
+	{
+		$this->_start_at = $start_at;
+		$this->_end_at = $end_at;
+	}
+
+	/**
 	 * Run task.
 	 *
 	 * @since 0.1.0
@@ -41,14 +73,14 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 
 		foreach (CardModel::all() as $crd) {
 			$this->_current = $crd;
-			$invoices = $api->invoices($crd);
+			$invoices = $api->invoices($crd, $this->_start_at, $this->_end_at);
 
 			if (empty($invoices)) {
 				return;
 			}
 
 			foreach ($invoices as $_external) {
-				$_local = CardInvoiceModel::where('external_id', $_external['id'])->first();
+				$_local = CardInvoiceModel::where('external_id', $_external['id'])->where('card_id', $this->_current->local_id)->first();
 
 				if (empty($_local)) {
 					$this->create($_external);
@@ -85,13 +117,6 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 	 */
 	public function sync(array $external, $local)
 	{
-		$_updated_at = new Carbon($external['updated_at']);
-
-		// Nothing to update
-		if ($_updated_at->equalTo($local->last_sync)) {
-			return;
-		}
-
 		$this->fill($local, $external)->save();
 	}
 
@@ -116,7 +141,7 @@ class SyncCardInvoicesTask implements RunnableTaskInterface, SynchronizableTaskI
 		$local->payment_amount_cents = $external['payment_amount_cents'];
 		$local->balance_cents = $external['balance_cents'];
 		$local->previous_balance_cents = $external['previous_balance_cents'];
-		$local->last_sync = new Carbon($external['updated_at']);
+		$local->last_sync = Carbon::now();
 
 		return $local;
 	}

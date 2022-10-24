@@ -38,7 +38,7 @@ class CreateTransactionsTable extends Migration
 			$table->string('description')->nullable();
 			$table->text('notes')->nullable();
 
-			$table->unsignedBigInteger('amount_cents');
+			$table->bigInteger('amount_cents');
 			$table->unsignedTinyInteger('total_installments');
 			$table->unsignedTinyInteger('installment');
 			$table->unsignedTinyInteger('attachments_count');

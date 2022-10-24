@@ -44,7 +44,8 @@ return [
 		App\Commands\UpdateCommand::class,
 		Illuminate\Foundation\Console\ConfigClearCommand::class,
 		App\Commands\Config\IntegrationConfigCommand::class,
-		App\Commands\Config\MySQLConfigCommand::class
+		App\Commands\Config\MySQLConfigCommand::class,
+		App\Commands\Sync\SyncCategoriesCommand::class,
 	],
 
 	/*
