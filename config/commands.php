@@ -40,7 +40,8 @@ return [
 	*/
 
 	'add' => [
-		// ..
+		App\Commands\SetupCommand::class,
+		App\Commands\Config\IntegrationConfigCommand::class
 	],
 
 	/*
