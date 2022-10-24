@@ -27,7 +27,7 @@ class CreateCategoriesTable extends Migration
 			$table->bigInteger('local_id', true, true)->primary();
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
 			$table->string('name');
-			$table->char('color', 6);
+			$table->char('color', 6)->nullable();
 			$table->bigInteger('parent_id', false, true)->nullable()->index();
 
 			$table->timestamp('last_sync')->nullable()->index();

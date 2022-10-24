@@ -28,7 +28,7 @@ class CreateCardsTable extends Migration
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
 			$table->enum('type', ['credit_card', 'debit_card']);
 			$table->string('name');
-			$table->string('description');
+			$table->string('description')->nullable();
 			$table->string('card_network');
 			$table->unsignedTinyInteger('closing_day');
 			$table->unsignedTinyInteger('due_day');

@@ -28,7 +28,7 @@ class CreateAccountsTable extends Migration
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
 			$table->enum('type', ['checking', 'savings', 'other']);
 			$table->string('name');
-			$table->string('description');
+			$table->string('description')->nullable();
 			$table->boolean('archived')->default(false);
 			$table->boolean('default')->default(false);
 

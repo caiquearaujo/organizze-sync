@@ -34,8 +34,8 @@ class CreateTransactionsTable extends Migration
 			$table->json('tags')->nullable();
 
 			$table->date('date');
-			$table->string('description');
-			$table->text('notes');
+			$table->string('description')->nullable();
+			$table->text('notes')->nullable();
 
 			$table->unsignedBigInteger('amount_cents');
 			$table->unsignedTinyInteger('total_installments');

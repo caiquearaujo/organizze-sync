@@ -3,12 +3,8 @@
 namespace App\Tasks;
 
 use App\Api\OrganizzeApi;
-use App\Models\CardModel;
 use App\Models\CategoryModel;
-use DateTimeImmutable;
-use Exception;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 /**
  * Sync categories with database.
@@ -63,6 +59,7 @@ class SyncCategoriesTask implements RunnableTaskInterface, SynchronizableTaskInt
 		$category = new CategoryModel();
 
 		$category->external_id = $external['id'];
+
 		$this->sync($external, $category);
 	}
 
@@ -78,6 +75,7 @@ class SyncCategoriesTask implements RunnableTaskInterface, SynchronizableTaskInt
 	{
 		$local->name = $external['name'];
 		$local->color = $external['color'];
+		$local->last_sync = Carbon::now();
 
 		$local->save();
 	}
