@@ -47,9 +47,9 @@ class CardInvoiceModel extends Model
 	 * @since 0.1.0
 	 */
 	protected $casts = [
-		'date' => 'date',
-		'starting_date' => 'date',
-		'closing_date' => 'date',
+		'date' => 'date:Y-m-d',
+		'starting_date' => 'date:Y-m-d',
+		'closing_date' => 'date:Y-m-d',
 		'amount_cents' => 'integer',
 		'payment_amount_cents' => 'integer',
 		'balance_cents' => 'integer',

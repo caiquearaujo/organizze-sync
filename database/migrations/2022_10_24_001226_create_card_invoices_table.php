@@ -26,7 +26,7 @@ class CreateCardInvoicesTable extends Migration
 		Schema::create('card_invoices', function (Blueprint $table) {
 			$table->bigInteger('local_id', true, true)->primary();
 			$table->bigInteger('external_id', false, true)->comment('Organizze external ID')->index();
-			$table->bigInteger('card_id', false, true);
+			$table->bigInteger('card_id', false, true)->nullable();
 			$table->date('date');
 			$table->date('starting_date');
 			$table->date('closing_date');
