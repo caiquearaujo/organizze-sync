@@ -3,11 +3,11 @@
 namespace App\Tasks;
 
 use App\Api\OrganizzeApi;
-use App\Models\CategoryModel;
+use App\Models\CardModel;
 use Carbon\Carbon;
 
 /**
- * Sync categories with database.
+ * Sync Cards with database.
  *
  * @package \App
  * @subpackage \App\Tasks
@@ -18,7 +18,7 @@ use Carbon\Carbon;
  * @license MIT
  * @copyright 2022 Caique Araujo <caique@piggly.com.br>
  */
-class SyncCategoriesTask implements RunnableTaskInterface, SynchronizableTaskInterface
+class SyncCardsTask implements RunnableTaskInterface, SynchronizableTaskInterface
 {
 	/**
 	 * Run task.
@@ -29,14 +29,14 @@ class SyncCategoriesTask implements RunnableTaskInterface, SynchronizableTaskInt
 	public function run()
 	{
 		$api = new OrganizzeApi(env('INTEGRATION_NAME'), env('INTEGRATION_EMAIL'), env('INTEGRATION_KEY'));
-		$categories = $api->categories();
+		$cards = $api->cards();
 
-		if (empty($categories)) {
+		if (empty($cards)) {
 			return;
 		}
 
-		foreach ($categories as $_external) {
-			$_local = CategoryModel::where('external_id', $_external['id'])->first();
+		foreach ($cards as $_external) {
+			$_local = CardModel::where('external_id', $_external['id'])->first();
 
 			if (empty($_local)) {
 				$this->create($_external);
@@ -56,25 +56,28 @@ class SyncCategoriesTask implements RunnableTaskInterface, SynchronizableTaskInt
 	 */
 	public function create(array $external)
 	{
-		$cat = new CategoryModel();
+		$crd = new CardModel();
 
-		$cat->external_id = $external['id'];
-		$this->fill($cat, $external)->save();
+		$crd->external_id = $external['id'];
+		$this->fill($crd, $external)->save();
 	}
 
 	/**
 	 * Sync external data with local record.
 	 *
 	 * @param array $external
-	 * @param CategoryModel $local
+	 * @param CardModel $local
 	 * @since 0.1.0
 	 * @return void
 	 */
 	public function sync(array $external, $local)
 	{
-		$local->name = $external['name'];
-		$local->color = $external['color'];
-		$local->last_sync = Carbon::now();
+		$_updated_at = new Carbon($external['updated_at']);
+
+		// Nothing to update
+		if ($_updated_at->equalTo($local->last_sync)) {
+			return;
+		}
 
 		$this->fill($local, $external)->save();
 	}
@@ -85,13 +88,20 @@ class SyncCategoriesTask implements RunnableTaskInterface, SynchronizableTaskInt
 	 * @param mixed $local
 	 * @param array $external
 	 * @since 0.1.0
-	 * @return CategoryModel
+	 * @return CardModel
 	 */
 	public function fill($local, array $external)
 	{
 		$local->name = $external['name'];
-		$local->color = $external['color'];
-		$local->last_sync = Carbon::now();
+		$local->description = $external['description'];
+		$local->archived = $external['archived'];
+		$local->default = $external['default'];
+		$local->type = $external['type'];
+		$local->card_network = $external['card_network'];
+		$local->closing_day = $external['closing_day'];
+		$local->due_day = $external['due_day'];
+		$local->limit_cents = $external['limit_cents'];
+		$local->last_sync = new Carbon($external['updated_at']);
 
 		return $local;
 	}

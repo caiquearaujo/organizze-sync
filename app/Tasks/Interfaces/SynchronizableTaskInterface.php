@@ -42,4 +42,14 @@ interface SynchronizableTaskInterface
 	 * @return void
 	 */
 	public function sync(array $external, $local);
+
+	/**
+	 * Fill local with partial external date.
+	 *
+	 * @param mixed $local
+	 * @param array $external
+	 * @since 0.1.0
+	 * @return mixed
+	 */
+	public function fill($local, array $external);
 }

@@ -4,7 +4,6 @@ namespace App\Tasks;
 
 use App\Api\OrganizzeApi;
 use App\Models\AccountModel;
-use App\Models\CategoryModel;
 use Carbon\Carbon;
 
 /**
@@ -60,14 +59,7 @@ class SyncAccountsTask implements RunnableTaskInterface, SynchronizableTaskInter
 		$acc = new AccountModel();
 
 		$acc->external_id = $external['id'];
-		$acc->name = $external['name'];
-		$acc->description = $external['description'];
-		$acc->archived = $external['archived'];
-		$acc->default = $external['default'];
-		$acc->type = $external['type'];
-		$acc->last_sync = new Carbon($external['updated_at']);
-
-		$acc->save();
+		$this->fill($acc, $external)->save();
 	}
 
 	/**
@@ -87,6 +79,19 @@ class SyncAccountsTask implements RunnableTaskInterface, SynchronizableTaskInter
 			return;
 		}
 
+		$this->fill($local, $external)->save();
+	}
+
+	/**
+	 * Fill local with partial external date.
+	 *
+	 * @param mixed $local
+	 * @param array $external
+	 * @since 0.1.0
+	 * @return AccountModel
+	 */
+	public function fill($local, array $external)
+	{
 		$local->name = $external['name'];
 		$local->description = $external['description'];
 		$local->archived = $external['archived'];
@@ -94,6 +99,6 @@ class SyncAccountsTask implements RunnableTaskInterface, SynchronizableTaskInter
 		$local->type = $external['type'];
 		$local->last_sync = new Carbon($external['updated_at']);
 
-		$local->save();
+		return $local;
 	}
 }
