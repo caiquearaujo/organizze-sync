@@ -61,9 +61,9 @@ class IntegrationConfigCommand extends AbstractBaseCommand
 		$INTEGRATION_KEY = $this->required('Chave da API do Organizze', true, true);
 
 		$env->set('APP_TIMEZONE', $APP_TIMEZONE);
-		$env->set('INTEGRATION_NAME', $INTEGRATION_NAME);
+		$env->set('INTEGRATION_NAME', "'$INTEGRATION_NAME'");
 		$env->set('INTEGRATION_EMAIL', $INTEGRATION_EMAIL);
-		$env->set('INTEGRATION_KEY', $INTEGRATION_KEY);
+		$env->set('INTEGRATION_KEY', "'$INTEGRATION_KEY'");
 
 		$testing = $this->task('Testando conexão com a API', function () use ($INTEGRATION_NAME, $INTEGRATION_EMAIL, $INTEGRATION_KEY) {
 			$api = new OrganizzeApi($INTEGRATION_NAME, $INTEGRATION_EMAIL, $INTEGRATION_KEY);

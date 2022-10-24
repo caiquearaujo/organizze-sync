@@ -56,6 +56,8 @@ class SetupCommand extends AbstractBaseCommand
 
 		$this->_checkRequirements();
 		$this->call('config:integration');
+		$this->call('config:mysql');
+		$this->call('migrate');
 	}
 
 	/**
