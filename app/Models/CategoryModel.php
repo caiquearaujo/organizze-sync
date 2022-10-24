@@ -39,4 +39,14 @@ class CategoryModel extends Model
 	 * @since 0.1.0
 	 */
 	protected $primaryKey = 'local_id';
+
+	/**
+	 * The attributes that should be cast.
+	 *
+	 * @var array
+	 * @since 0.1.0
+	 */
+	protected $casts = [
+		'last_sync' => 'datetime'
+	];
 }

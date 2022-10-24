@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Account model.
+ * Card model.
  *
  * @package \App
  * @subpackage \App\Models
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @license MIT
  * @copyright 2022 Caique Araujo <caique@piggly.com.br>
  */
-class AccountModel extends Model
+class CardModel extends Model
 {
 	/**
 	 * Traits.
@@ -30,7 +30,7 @@ class AccountModel extends Model
 	 * @var string
 	 * @since 0.1.0
 	 */
-	protected $table = 'accounts';
+	protected $table = 'cards';
 
 	/**
 	 * The primary key associated with the table.
@@ -47,6 +47,9 @@ class AccountModel extends Model
 	 * @since 0.1.0
 	 */
 	protected $casts = [
+		'closing_day' => 'integer',
+		'due_day' => 'integer',
+		'limit_cents' => 'integer',
 		'archived' => 'boolean',
 		'default' => 'boolean',
 		'last_sync' => 'datetime'
